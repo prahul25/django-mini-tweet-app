@@ -1,0 +1,65 @@
+{% load static %}
+{% load tailwind_tags %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %} Tweet App {% endblock %}</title>
+    {% tailwind_css %}
+  </head>
+  <body class="bg-gray-50">
+    <nav class="bg-gray-900 text-white shadow-lg" x-data="{ open: false }">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <!-- Brand -->
+          <a href="#" class="text-xl font-bold tracking-tight">Tweet App</a>
+          
+          <!-- Desktop Nav -->
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="#" class="hover:text-gray-300 transition-colors">Home</a>
+            <a href="#" class="hover:text-gray-300 transition-colors">Tweets</a>
+            <a href="#" class="hover:text-gray-300 transition-colors">Explore</a>
+            <a href="#" class="hover:text-gray-300 transition-colors">Notifications</a>
+          </div>
+          
+          <!-- Auth Actions (Desktop) -->
+          <div class="hidden md:flex items-center space-x-4">
+            <a href="#" class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">Sign In</a>
+            <a href="#" class="px-4 py-2 text-sm font-medium bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Sign Up</a>
+          </div>
+          
+          <!-- Mobile Menu Button -->
+          <button class="md:hidden p-2 rounded-lg hover:bg-gray-800 transition-colors" @click="open = !open" aria-label="Toggle menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" :class="{ 'hidden': open, 'block': !open }">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" :class="{ 'block': open, 'hidden': !open }">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="md:hidden py-4 border-t border-gray-800">
+          <div class="flex flex-col space-y-2 pt-4">
+            <a href="#" class="px-2 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Home</a>
+            <a href="#" class="px-2 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Tweets</a>
+            <a href="#" class="px-2 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Explore</a>
+            <a href="#" class="px-2 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Notifications</a>
+            <hr class="border-gray-800 my-2">
+            <a href="#" class="px-2 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Sign In</a>
+            <a href="#" class="px-4 py-2 text-base font-medium bg-blue-600 text-white text-center rounded-lg hover:bg-blue-700 transition-colors mt-2">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Alpine.js CDN for mobile menu -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </body>
+</html>
