@@ -1,55 +1,70 @@
 {% load static %}
 {% load tailwind_tags %}
 <!doctype html>
-<html lang="en">
+<html lang="en" x-data="{ dark: localStorage.getItem('dark') === 'true' }" :class="{ 'dark': dark }" x-init="$watch('dark', val => localStorage.setItem('dark', val))">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %} Tweet App {% endblock %}</title>
     {% tailwind_css %}
   </head>
-  <body class="bg-gray-50">
-    <nav class="bg-gray-900 text-white shadow-lg" x-data="{ open: false }">
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+    <nav class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm" x-data="{ open: false }">
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
           <!-- Brand -->
-          <a href="#" class="text-xl font-bold tracking-tight">Tweet App</a>
+          <a href="#" class="text-xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">Tweet App</a>
           
           <!-- Desktop Nav -->
           <div class="hidden md:flex items-center space-x-8">
-            <a href="#" class="hover:text-gray-300 transition-colors">Home</a>
-            <a href="#" class="hover:text-gray-300 transition-colors">Tweets</a>
-            <a href="#" class="hover:text-gray-300 transition-colors">Explore</a>
-            <a href="#" class="hover:text-gray-300 transition-colors">Notifications</a>
+            <a href="#" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Home</a>
+            <a href="#" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Tweets</a>
+            <a href="#" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Explore</a>
+            <a href="#" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Notifications</a>
           </div>
           
-          <!-- Auth Actions (Desktop) -->
-          <div class="hidden md:flex items-center space-x-4">
-            <a href="#" class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">Sign In</a>
-            <a href="#" class="px-4 py-2 text-sm font-medium bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Sign Up</a>
+          <!-- Right side: Dark toggle + Auth -->
+          <div class="flex items-center gap-3">
+            <!-- Dark Mode Toggle -->
+            <button @click="dark = !dark" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" :title="dark ? 'Switch to light mode' : 'Switch to dark mode'">
+              <!-- Sun icon (shown in dark mode) -->
+              <svg x-show="dark" x-cloak class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+              <!-- Moon icon (shown in light mode) -->
+              <svg x-show="!dark" class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+              </svg>
+            </button>
+
+            <!-- Auth Actions (Desktop) -->
+            <div class="hidden md:flex items-center space-x-3">
+              <a href="#" class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Sign In</a>
+              <a href="#" class="px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">Sign Up</a>
+            </div>
           </div>
           
           <!-- Mobile Menu Button -->
-          <button class="md:hidden p-2 rounded-lg hover:bg-gray-800 transition-colors" @click="open = !open" aria-label="Toggle menu">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" :class="{ 'hidden': open, 'block': !open }">
+          <button class="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" @click="open = !open" aria-label="Toggle menu">
+            <svg class="w-6 h-6 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" :class="{ 'hidden': open, 'block': !open }">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
-            <svg class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" :class="{ 'block': open, 'hidden': !open }">
+            <svg class="w-6 h-6 text-slate-600 dark:text-slate-300 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" :class="{ 'block': open, 'hidden': !open }">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
         </div>
         
         <!-- Mobile Menu -->
-        <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="md:hidden py-4 border-t border-gray-800">
-          <div class="flex flex-col space-y-2 pt-4">
-            <a href="#" class="px-2 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Home</a>
-            <a href="#" class="px-2 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Tweets</a>
-            <a href="#" class="px-2 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Explore</a>
-            <a href="#" class="px-2 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Notifications</a>
-            <hr class="border-gray-800 my-2">
-            <a href="#" class="px-2 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">Sign In</a>
-            <a href="#" class="px-4 py-2 text-base font-medium bg-blue-600 text-white text-center rounded-lg hover:bg-blue-700 transition-colors mt-2">Sign Up</a>
+        <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="md:hidden py-4 border-t border-slate-200 dark:border-slate-800">
+          <div class="flex flex-col space-y-1 pt-2">
+            <a href="#" class="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">Home</a>
+            <a href="#" class="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">Tweets</a>
+            <a href="#" class="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">Explore</a>
+            <a href="#" class="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">Notifications</a>
+            <hr class="border-slate-200 dark:border-slate-800 my-2">
+            <a href="#" class="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">Sign In</a>
+            <a href="#" class="mx-3 px-4 py-2 text-sm font-medium bg-indigo-600 text-white text-center rounded-lg hover:bg-indigo-700 transition-colors shadow-sm mt-1">Sign Up</a>
           </div>
         </div>
       </div>
@@ -59,7 +74,10 @@
       {% block content %}{% endblock %}
     </main>
 
-    <!-- Alpine.js CDN for mobile menu -->
+    <!-- Alpine.js CDN for mobile menu + dark mode -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+      [x-cloak] { display: none !important; }
+    </style>
   </body>
 </html>
