@@ -23,4 +23,5 @@ urlpatterns = [
     path("<int:tweet_id>/edit/", views.tweet_edit, name="edit_tweet"),
     path("<int:tweet_id>/delete/", views.tweet_delete, name="delete_tweet"),
     path("register/", views.register, name="register"),
+    path("login/", views.login, name="login"),
 ]

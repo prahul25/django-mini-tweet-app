@@ -47,6 +47,7 @@
             {% endif %}
 
             <!-- Actions -->
+             {% if tweet.user  == user%}
             <div class="flex items-center gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
               <a href="{% url 'edit_tweet' tweet.id %}" class="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 hover:text-amber-600 dark:hover:text-amber-400 group transition-colors">
                 <span class="p-1.5 rounded-full group-hover:bg-amber-50 dark:group-hover:bg-amber-950 transition-colors">
@@ -65,6 +66,7 @@
                 <span class="text-xs font-medium">Delete</span>
               </a>
             </div>
+            {% endif %}
           </div>
         </div>
       {% endfor %}
