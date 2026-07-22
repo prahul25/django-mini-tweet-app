@@ -9,7 +9,7 @@ class TweetForm(forms.ModelForm):
         fields = ['text', 'photo']
 
 
-class UserRegisterationForm(UserCreationForm):
+class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField()
     class Meta:
         model = User
