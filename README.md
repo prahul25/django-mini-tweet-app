@@ -112,32 +112,10 @@ django-mini-tweet-app/
 │           └── logged_out.html
 ```
 
-## Auth Flow
+## Status
 
-```
-Register (POST /tweet/register/) 
-  → auto-login → redirect /tweet/
+All features implemented. No known bugs.
 
-Login (GET/POST /accounts/login/)
-  → redirect /tweet/
-
-Logout (POST /accounts/logout/)
-  → redirect /accounts/login/
-
-@login_required protects:
-  /tweet/create/
-  /tweet/<id>/edit/
-  /tweet/<id>/delete/
-```
-
-## Known Issues
-
-See `AGENTS.md` — current bugs:
-- `TweetForm` originally didn't inherit `ModelForm`
-- `tweet.save` missing `()` in create view
-- `tweet_edit` double-save
-- Edit/delete URLs missing `<tweet_id>` parameter
+---
 
 ## License
-
-MIT — free to use, modify, distribute.

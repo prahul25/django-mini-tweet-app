@@ -34,15 +34,18 @@ No linting, formatting, or type-checking tools are configured.
 
 ## Known Issues (as of current state)
 
-- `tweet/forms.py`: `TweetForm` does not inherit from `forms.ModelForm` — will fail at runtime.
-- `tweet/views.py:21`: `tweet.save` is missing parentheses — tweet creation silently fails.
-- `tweet/urls.py` only routes `index` — `tweet_list`, `tweet_create`, `tweet_edit`, `tweet_delete` views exist but have no URL patterns.
-- Views reference templates (`tweet_list.html`, `tweet_form.html`, `tweet_edit.html`, `tweet_confirm_delete.html`) that do not exist.
-- `settings.py` defines `STATIC_URL` twice; second definition overrides the first.
-- `db.sqlite3` is tracked in git despite `.gitignore` rule (committed before ignore was effective).
+None — all previously documented issues have been resolved:
+- `TweetForm` inherits `forms.ModelForm` ✅
+- `tweet.save()` has parentheses ✅
+- URL patterns for create/edit/delete ✅
+- Templates exist for list/form/delete ✅
+- `STATIC_URL` defined once ✅
+- `db.sqlite3` in `.gitignore` and not tracked ✅
+- `UserRegistrationForm` typo fixed ✅
 
 ## Conventions
 
 - No established code style beyond default Django.
-- No CI, no pre-commit hooks, no README yet.
+- No CI, no pre-commit hooks.
 - Templates use Tailwind CSS utility classes. Base layout is `templates/layout.html`.
+- Dark mode via Alpine.js + localStorage, class-based (`.dark` on `<html>`).
