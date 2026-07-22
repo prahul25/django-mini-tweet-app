@@ -111,11 +111,3 @@ django-mini-tweet-app/
 │           ├── register.html
 │           └── logged_out.html
 ```
-
-## Status
-
-All features implemented. No known bugs.
-
----
-
-## License
