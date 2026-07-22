@@ -129,3 +129,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # for storing media images
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path. join(BASE_DIR, 'static' )] # for storing static files like css js file to serve
+
+LOGIN_URL = '/accounts/login'
+LOGIN_REDIRECT_URL = '/tweet/'
+LOGOUT_REDIRECT_URL = '/tweet/'
