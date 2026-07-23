@@ -15,59 +15,62 @@
     </a>
   </div>
 
-  {% if tweets %}
+{% if tweets %}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {% for tweet in tweets %}
         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all">
-          {% if tweet.photo %}
-            <div class="aspect-video overflow-hidden">
-              <img src="{{ tweet.photo.url }}" alt="" class="w-full h-full object-cover">
-            </div>
-          {% else %}
-            <div class="aspect-video from-indigo-500 to-indigo-700 flex items-center justify-center p-6">
-              <p class="text-white text-center text-sm leading-snug line-clamp-4">{{ tweet.text }}</p>
-            </div>
-          {% endif %}
-
-          <div class="p-4">
-            <!-- Header -->
-            <div class="flex items-center gap-2 mb-2">
-              <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs shrink-0 uppercase">
-                {{ tweet.user.username|first }}
-              </div>
-              <div class="min-w-0">
-                <p class="font-bold text-slate-900 dark:text-slate-100 text-sm truncate">{{ tweet.user.username }}</p>
-                <p class="text-slate-400 dark:text-slate-500 text-xs">{{ tweet.created_at|timesince }} ago</p>
-              </div>
-            </div>
-
-            <!-- Text -->
+          <!-- Clickable area: image + text -->
+          <a href="{% url 'tweet_detail' tweet.id %}" class="block">
             {% if tweet.photo %}
-              <p class="text-slate-800 dark:text-slate-200 text-sm leading-snug mb-3 line-clamp-3 whitespace-pre-wrap">{{ tweet.text }}</p>
+              <div class="aspect-video overflow-hidden">
+                <img src="{{ tweet.photo.url }}" alt="" class="w-full h-full object-cover">
+              </div>
+            {% else %}
+              <div class="aspect-video from-indigo-500 to-indigo-700 flex items-center justify-center p-6">
+                <p class="text-white text-center text-sm leading-snug line-clamp-4">{{ tweet.text }}</p>
+              </div>
             {% endif %}
 
-            <!-- Actions -->
-             {% if tweet.user  == user%}
-            <div class="flex items-center gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
-              <a href="{% url 'edit_tweet' tweet.id %}" class="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 hover:text-amber-600 dark:hover:text-amber-400 group transition-colors">
-                <span class="p-1.5 rounded-full group-hover:bg-amber-50 dark:group-hover:bg-amber-950 transition-colors">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                  </svg>
-                </span>
-                <span class="text-xs font-medium">Edit</span>
-              </a>
-              <a href="{% url 'delete_tweet' tweet.id %}" class="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 group transition-colors">
-                <span class="p-1.5 rounded-full group-hover:bg-red-50 dark:group-hover:bg-red-950 transition-colors">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                  </svg>
-                </span>
-                <span class="text-xs font-medium">Delete</span>
-              </a>
+            <div class="p-4">
+              <!-- Header -->
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs shrink-0 uppercase">
+                  {{ tweet.user.username|first }}
+                </div>
+                <div class="min-w-0">
+                  <p class="font-bold text-slate-900 dark:text-slate-100 text-sm truncate">{{ tweet.user.username }}</p>
+                  <p class="text-slate-400 dark:text-slate-500 text-xs">{{ tweet.created_at|timesince }} ago</p>
+                </div>
+              </div>
+
+              <!-- Text -->
+              {% if tweet.photo %}
+                <p class="text-slate-800 dark:text-slate-200 text-sm leading-snug mb-3 line-clamp-3 whitespace-pre-wrap">{{ tweet.text }}</p>
+              {% endif %}
             </div>
-            {% endif %}
+          </a>
+
+          <!-- Actions (separate, not clickable through to detail) -->
+          {% if tweet.user == user %}
+          <div class="flex items-center gap-2 px-4 pb-4 pt-2 border-t border-slate-100 dark:border-slate-800">
+            <a href="{% url 'edit_tweet' tweet.id %}" class="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 hover:text-amber-600 dark:hover:text-amber-400 group transition-colors">
+              <span class="p-1.5 rounded-full group-hover:bg-amber-50 dark:group-hover:bg-amber-950 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+              </span>
+              <span class="text-xs font-medium">Edit</span>
+            </a>
+            <a href="{% url 'delete_tweet' tweet.id %}" class="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 group transition-colors">
+              <span class="p-1.5 rounded-full group-hover:bg-red-50 dark:group-hover:bg-red-950 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </span>
+              <span class="text-xs font-medium">Delete</span>
+            </a>
           </div>
+          {% endif %}
         </div>
       {% endfor %}
     </div>
